@@ -1,0 +1,133 @@
+name: Update profile visuals
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '23 4 * * *' # Daily, at 04:23 UTC; GitHub may delay scheduled runs.
+  push:
+    branches: [main]
+    paths:
+      - README.md
+      - .github/workflows/update-profile.yml
+      - .github/scripts/**
+
+# Only this repository is writable. No personal access token is needed.
+permissions:
+  contents: write
+
+concurrency:
+  group: profile-visuals-${{ github.repository }}
+  cancel-in-progress: false
+
+jobs:
+  generate:
+    if: github.repository == 'PerchAnton/PerchAnton'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Check out the profile source
+        uses: actions/checkout@v6
+        with:
+          ref: main
+          fetch-depth: 1
+
+      - name: Prepare output folder
+        run: mkdir -p .generated
+
+      - name: Generate contribution snake
+        id: snake
+        continue-on-error: true
+        uses: Platane/snk/svg-only@v3
+        with:
+          github_user_name: PerchAnton
+          outputs: |
+            .generated/snake-light.svg
+            .generated/snake-dark.svg?palette=github-dark
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Generate light statistics
+        id: stats_light
+        continue-on-error: true
+        uses: stats-organization/github-readme-stats-action@v2
+        with:
+          card: stats
+          options: username=PerchAnton&show_icons=true&hide_rank=true&theme=default&border_radius=12&card_width=495
+          path: .generated/stats-light.svg
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fail_on_error: true
+
+      - name: Generate dark statistics
+        id: stats_dark
+        continue-on-error: true
+        uses: stats-organization/github-readme-stats-action@v2
+        with:
+          card: stats
+          options: username=PerchAnton&show_icons=true&hide_rank=true&theme=github_dark&border_radius=12&card_width=495
+          path: .generated/stats-dark.svg
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fail_on_error: true
+
+      - name: Generate light language statistics
+        id: languages_light
+        continue-on-error: true
+        uses: stats-organization/github-readme-stats-action@v2
+        with:
+          card: top-langs
+          options: username=PerchAnton&layout=compact&langs_count=6&theme=default&border_radius=12&card_width=495
+          path: .generated/languages-light.svg
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fail_on_error: true
+
+      - name: Generate dark language statistics
+        id: languages_dark
+        continue-on-error: true
+        uses: stats-organization/github-readme-stats-action@v2
+        with:
+          card: top-langs
+          options: username=PerchAnton&layout=compact&langs_count=6&theme=github_dark&border_radius=12&card_width=495
+          path: .generated/languages-dark.svg
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fail_on_error: true
+
+      - name: Generate light contribution streak
+        id: streak_light
+        continue-on-error: true
+        uses: DenverCoder1/github-readme-streak-stats@v1
+        with:
+          options: user=PerchAnton&theme=default&border_radius=12&locale=en
+          path: .generated/streak-light.svg
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Generate dark contribution streak
+        id: streak_dark
+        continue-on-error: true
+        uses: DenverCoder1/github-readme-streak-stats@v1
+        with:
+          options: user=PerchAnton&theme=dark&background=0d1117&border=30363d&stroke=30363d&ring=58a6ff&fire=58a6ff&currStreakLabel=58a6ff&border_radius=12&locale=en
+          path: .generated/streak-dark.svg
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Validate generated images
+        id: stage
+        env:
+          SNAKE_OUTCOME: ${{ steps.snake.outcome }}
+          STATS_LIGHT_OUTCOME: ${{ steps.stats_light.outcome }}
+          STATS_DARK_OUTCOME: ${{ steps.stats_dark.outcome }}
+          LANGUAGES_LIGHT_OUTCOME: ${{ steps.languages_light.outcome }}
+          LANGUAGES_DARK_OUTCOME: ${{ steps.languages_dark.outcome }}
+          STREAK_LIGHT_OUTCOME: ${{ steps.streak_light.outcome }}
+          STREAK_DARK_OUTCOME: ${{ steps.streak_dark.outcome }}
+        run: python3 .github/scripts/stage-assets.py
+
+      - name: Publish successful images without changing main
+        env:
+          READY_DIR: ${{ runner.temp }}/profile-ready
+          PUBLISH_DIR: ${{ runner.temp }}/profile-publish
+        run: bash .github/scripts/publish-assets.sh
+
+      - name: Report incomplete generation
+        if: steps.stage.outputs.partial == 'true'
+        run: |
+          echo '::error::Some images could not be refreshed. Successful images were published; previous versions of failed images were preserved. See the job summary and rerun this workflow.'
+          exit 1
