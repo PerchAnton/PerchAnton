@@ -8,8 +8,8 @@
         role="img"
         aria-labelledby="descId"
       >
-        <title id="titleId">PerchenkoAnton&#39;s GitHub Stats, Rank: C</title>
-        <desc id="descId">Total Stars Earned: 0, Total Commits  (last year) : 21, Total PRs: 29, Total Issues: 0, Contributed to (last year): 3</desc>
+        <title id="titleId">Perchenko Anton&#39;s GitHub Stats, Rank: C</title>
+        <desc id="descId">Total Stars Earned: 0, Total Commits  (last year) : 25, Total PRs: 30, Total Issues: 1, Contributed to (last year): 3</desc>
         <style>
           .header {
             font: 600 18px 'Segoe UI', Ubuntu, Sans-Serif;
@@ -73,7 +73,7 @@
         stroke-dashoffset: 251.32741228718345;
       }
       to {
-        stroke-dashoffset: 226.25454443312043;
+        stroke-dashoffset: 224.66730632304623;
       }
     }
   
@@ -133,7 +133,7 @@
         y="0"
         class="header"
         data-testid="header"
-      >PerchenkoAnton&#39;s GitHub Stats</text>
+      >Perchenko Anton&#39;s GitHub Stats</text>
     </g>
       </g>
     
@@ -173,7 +173,7 @@
         x="224.01"
         y="12.5"
         data-testid="commits"
-      >21</text>
+      >25</text>
     </g>
   </g><g transform="translate(0, 50)">
     <g class="stagger" style="animation-delay: 750ms" transform="translate(25, 0)">
@@ -188,7 +188,7 @@
         x="224.01"
         y="12.5"
         data-testid="prs"
-      >29</text>
+      >30</text>
     </g>
   </g><g transform="translate(0, 75)">
     <g class="stagger" style="animation-delay: 900ms" transform="translate(25, 0)">
@@ -203,7 +203,7 @@
         x="224.01"
         y="12.5"
         data-testid="issues"
-      >0</text>
+      >1</text>
     </g>
   </g><g transform="translate(0, 100)">
     <g class="stagger" style="animation-delay: 1050ms" transform="translate(25, 0)">
