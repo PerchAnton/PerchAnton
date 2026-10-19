@@ -3,7 +3,7 @@ name: Update profile visuals
 on:
   workflow_dispatch:
   schedule:
-    - cron: '23 4 * * *' # Daily, at 04:23 UTC; GitHub may delay scheduled runs.
+    - cron: '0 7 * * *' # Daily, at 07:00 UTC; GitHub may delay scheduled runs.
   push:
     branches: [main]
     paths:
