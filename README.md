@@ -1,4 +1,4 @@
-<h1 align="center">✩ &nbsp; PerchAnton &nbsp; ✩</h1>
+<h1 align="center"> &nbsp; PerchAnton &nbsp; </h1>
 
 <h3 align="center">Hi, I'm Anton Perchenko 👋</h3>
 
