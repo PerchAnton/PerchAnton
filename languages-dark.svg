@@ -1,8 +1,8 @@
 
       <svg
         width="495"
-        height="90"
-        viewBox="0 0 495 90"
+        height="115"
+        viewBox="0 0 495 115"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         role="img"
@@ -128,7 +128,49 @@
           
     <svg data-testid="lang-items" x="25">
       
-    <text x="0" y="11" class="stat bold">No languages data.</text>
+  
+      <mask id="rect-mask">
+          <rect x="0" y="0" width="445" height="8" fill="white" rx="5"/>
+        </mask>
+        
+        <rect
+          mask="url(#rect-mask)"
+          data-testid="lang-progress"
+          x="0"
+          y="0"
+          width="262.38"
+          height="8"
+          fill="#3572A5"
+        />
+      
+        <rect
+          mask="url(#rect-mask)"
+          data-testid="lang-progress"
+          x="262.38"
+          y="0"
+          width="182.62"
+          height="8"
+          fill="#dea584"
+        />
+      
+      
+    <g transform="translate(0, 25)">
+      <g transform="translate(0, 0)"><g transform="translate(0, 0)">
+    <g class="stagger" style="animation-delay: 450ms">
+      <circle cx="5" cy="6" r="5" fill="#3572A5" />
+      <text data-testid="lang-name" x="15" y="10" class='lang-name'>
+        Python 58.96%
+      </text>
+    </g>
+  </g></g><g transform="translate(150, 0)"><g transform="translate(0, 0)">
+    <g class="stagger" style="animation-delay: 450ms">
+      <circle cx="5" cy="6" r="5" fill="#dea584" />
+      <text data-testid="lang-name" x="15" y="10" class='lang-name'>
+        Rust 41.04%
+      </text>
+    </g>
+  </g></g>
+    </g>
   
     </svg>
   
